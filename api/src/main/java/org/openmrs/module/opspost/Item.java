@@ -10,7 +10,9 @@
 package org.openmrs.module.opspost;
 
 import org.openmrs.BaseOpenmrsData;
-import org.openmrs.User;
+import org.openmrs.Patient;
+
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,15 +20,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  * Please note that a corresponding table schema must be created in liquibase.xml.
  */
 //Uncomment 2 lines below if you want to make the Item class persistable, see also OpspostDaoTest and liquibase.xml
-//@Entity(name = "opspost.Item")
-//@Table(name = "opspost_item")
+@Entity(name = "opspost.Item")
+@Table(name = "opspost_item")
 public class Item extends BaseOpenmrsData {
 	
 	@Id
@@ -34,14 +36,22 @@ public class Item extends BaseOpenmrsData {
 	@Column(name = "opspost_item_id")
 	private Integer id;
 	
-	@ManyToOne
-	@JoinColumn(name = "owner")
-	private User owner;
+	@OneToOne
+	@JoinColumn(name = "patient")
+	private Patient patient;
 	
 	@Basic
-	@Column(name = "description", length = 255)
-	private String description;
+	@Column(name = "api_key", length = 38)
+	private String apiKey;
+
+	@Basic
+	@Column(name = "updated_by", length = 255)
+	private String updatedBy = "UNKNOWN";
 	
+	@Basic
+	@Column(name = "updated_on")
+	private Date updatedOn;
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -62,19 +72,35 @@ public class Item extends BaseOpenmrsData {
 		super.setUuid(uuid);
 	}
 	
-	public User getOwner() {
-		return owner;
+	public Patient getPatient() {
+		return patient;
 	}
 	
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getApikey() {
+		return apiKey;
 	}
 	
-	public void setDescription(String description) {
-		this.description = description;
+	public void setApikey(String apiKey) {
+		this.apiKey = apiKey;
 	}
+
+	public Date getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Date updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 }
