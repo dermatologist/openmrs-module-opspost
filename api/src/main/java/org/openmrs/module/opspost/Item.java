@@ -23,10 +23,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 /**
+ * Lombok
+ * @Data
+ * All together now: A shortcut for @ToString, @EqualsAndHashCode, @Getter on all fields,
+ * @Setter on all non-final fields, and @RequiredArgsConstructor!
  * Please note that a corresponding table schema must be created in liquibase.xml.
  */
 //Uncomment 2 lines below if you want to make the Item class persistable, see also OpspostDaoTest and liquibase.xml
+@Data(staticConstructor = "of")
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "opspost.Item")
 @Table(name = "opspost_item")
 public class Item extends BaseOpenmrsData {
@@ -71,36 +81,38 @@ public class Item extends BaseOpenmrsData {
 	public void setUuid(String uuid) {
 		super.setUuid(uuid);
 	}
-	
-	public Patient getPatient() {
-		return patient;
-	}
-	
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
-	
-	public String getApikey() {
-		return apiKey;
-	}
-	
-	public void setApikey(String apiKey) {
-		this.apiKey = apiKey;
-	}
 
-	public Date getUpdatedOn() {
-        return updatedOn;
-    }
+	// Lombok creates @Getters and setters
 
-    public void setUpdatedOn(Date updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+//	public Patient getPatient() {
+//		return patient;
+//	}
+//
+//	public void setPatient(Patient patient) {
+//		this.patient = patient;
+//	}
+//
+//	public String getApikey() {
+//		return apiKey;
+//	}
+//
+//	public void setApikey(String apiKey) {
+//		this.apiKey = apiKey;
+//	}
+//
+//	public Date getUpdatedOn() {
+//        return updatedOn;
+//    }
+//
+//    public void setUpdatedOn(Date updatedOn) {
+//        this.updatedOn = updatedOn;
+//    }
+//
+//    public String getUpdatedBy() {
+//        return updatedBy;
+//    }
+//
+//    public void setUpdatedBy(String updatedBy) {
+//        this.updatedBy = updatedBy;
+//    }
 }
