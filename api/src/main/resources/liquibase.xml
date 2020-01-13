@@ -14,8 +14,8 @@
     -->
  
  	<!-- Uncomment the changeset below if you want to make the Item class persistable, see also Item and OpspostDaoTest -->
- 	<!--
-	<changeSet id="opspost-2016-08-02-12-21" author="raff">
+ 	
+	<changeSet id="opspost-2020-01-13-A" author="beapen">
 		<preConditions onFail="MARK_RAN">
 			<not><tableExists tableName="opspost_item"/></not>
 		</preConditions>
@@ -26,14 +26,16 @@
 			<column name="opspost_item_id" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false"/>
 			</column>
-			<column name="uuid" type="char(38)">
+			<column name="patient" type="int" />
+			<column name="uuid" type="char(38)" />
+			<column name="api_key" type="char(38)">
 				<constraints nullable="false" unique="true"></constraints>
 			</column>
-			<column name="owner" type="int" />
-			<column name="description" type="varchar(255)" />
+			<column name="updated_on" type="datetime" />
+            <column name="updated_by" type="varchar(255)" />
 		</createTable>
-        <addForeignKeyConstraint constraintName="opspost_item_owner_fk" baseTableName="opspost_item" baseColumnNames="owner"  referencedTableName="users"
-                                 referencedColumnNames="user_id" />
-    </changeSet> -->
+        <addForeignKeyConstraint constraintName="opspost_item_patient_fk" baseTableName="opspost_item" baseColumnNames="patient"  referencedTableName="patient"
+                                 referencedColumnNames="patient_id" />
+    </changeSet>
  
 </databaseChangeLog>
