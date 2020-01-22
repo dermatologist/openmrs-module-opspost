@@ -65,7 +65,6 @@ public class Item extends BaseOpenmrsData {
 	@Column(name = "updated_on")
 	private Date updatedOn;
 	
-	
 	@Override
 	public Integer getId() {
 		return id;

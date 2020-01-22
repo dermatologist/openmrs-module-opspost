@@ -1,14 +1,12 @@
 <script>
 jQuery( document ).ready(function() {
     jQuery("#but_reset").click(function (e) {
-        console.log("Clicked");
         jQuery.post("${ ui.actionLink("resetApiKey")}", {
                 returnFormat: 'json',
                 type: "data",
                 patientId: "${patient.id}"
             },
             function (data) {
-                console.log(data);
                 jQuery("#apikey").text(data);
             });
     });

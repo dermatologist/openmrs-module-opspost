@@ -58,6 +58,10 @@ public class OpspostFragmentController {
 		
 		Patient patient = patientService.getPatient(Integer.parseInt(patientId));
 		
+		if (opspostService.getItemByPatient(patient) != null) {
+			item = opspostService.getItemByPatient(patient);
+		}
+		
 		if (patient != null) {
 			item.setPatient(patient);
 			item.setApiKey(generateUniqueKeysWithUUIDAndMessageDigest());
@@ -65,14 +69,6 @@ public class OpspostFragmentController {
 		
 		if (opspostService != null)
 			opspostService.saveItem(item);
-		// System.out.println(opspostService.toString());
-		// if (toDelete.delete()) {
-		// 	output = SimpleObject.create("message", MESSAGE_SUCCESS);
-		// } else {
-		// 	output = SimpleObject.create("message", MESSAGE_ERROR);
-		// }
-		
-		// output.put("apiKey", item.getApiKey());
 		
 		return item.getApiKey();
 	}
