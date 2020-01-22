@@ -11,6 +11,7 @@ package org.openmrs.module.opspost;
 
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Patient;
+import org.openmrs.User;
 
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -62,6 +64,22 @@ public class Item extends BaseOpenmrsData {
 	@Basic
 	@Column(name = "updated_on")
 	private Date updatedOn;
+	
+	@Transient
+	@Column(name = "changed_by")
+	private User changedBy;
+	
+	@Transient
+	@Column(name = "date_changed")
+	private Date dateChanged;
+	
+	@Transient
+	@Column(name = "creator")
+	private User creator;
+	
+	@Transient
+	@Column(name = "date_created")
+	private Date dateCreated;
 	
 	@Override
 	public Integer getId() {

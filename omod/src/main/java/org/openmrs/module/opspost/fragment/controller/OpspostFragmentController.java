@@ -11,6 +11,7 @@ import org.openmrs.api.PatientService;
 import org.openmrs.module.opspost.Item;
 import org.openmrs.module.opspost.api.OpspostService;
 import org.openmrs.ui.framework.SimpleObject;
+import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentConfiguration;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ public class OpspostFragmentController {
 	
 	private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 	
-	public void controller(FragmentConfiguration config, FragmentModel model) throws Exception {
+	public void controller(FragmentConfiguration config, @SpringBean("patientService") PatientService patientService,
+	        @SpringBean("opspost.OpspostService") OpspostService opspostService, FragmentModel model) throws Exception {
 		// unfortunately in OpenMRS 2.1 the coreapps patient page only gives us a patientId for this extension point
 		// (not a patient) but I assume we'll fix this to pass patient, so I'll code defensively
 		Patient patient;
@@ -38,8 +40,12 @@ public class OpspostFragmentController {
 			// in case we are passed a PatientDomainWrapper (but this module doesn't know about emrapi)
 			patient = (Patient) (pt instanceof Patient ? pt : PropertyUtils.getProperty(pt, "patient"));
 		}
-		Item item = opspostService.getItemByPatient(patient);
-		String apiKey = item.getApiKey();
+		Item item = new Item();
+		String apiKey = "";
+		if (opspostService.getItemByPatient(patient) != null) {
+			item = opspostService.getItemByPatient(patient);
+			apiKey = item.getApiKey();
+		}
 		model.addAttribute("patient", patient);
 		model.addAttribute("apiKey", apiKey);
 	}

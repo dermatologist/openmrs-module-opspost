@@ -36,6 +36,30 @@
 		</createTable>
         <addForeignKeyConstraint constraintName="opspost_item_patient_fk" baseTableName="opspost_item" baseColumnNames="patient"  referencedTableName="patient"
                                  referencedColumnNames="patient_id" />
-    </changeSet>
+	</changeSet>
+	
+	<changeSet author="beapen" id="opspost-2020-01-20">
+		<preConditions onFail="MARK_RAN">
+			<not><columnExists columnName="changed_by" tableName="opspost_item"/></not>
+		</preConditions>
+		<addColumn tableName="opspost_item">
+			<column name="changed_by" type="int"/>
+		</addColumn>
+		<addColumn tableName="opspost_item">
+			<column name="date_changed" type="datetime"/>
+		</addColumn>
+	</changeSet>
+
+	<changeSet author="beapen" id="opspost-2020-01-20-B">
+		<preConditions onFail="MARK_RAN">
+			<not><columnExists columnName="creator" tableName="opspost_item"/></not>
+		</preConditions>
+		<addColumn tableName="opspost_item">
+			<column name="creator" type="int"/>
+		</addColumn>
+		<addColumn tableName="opspost_item">
+			<column name="date_created" type="datetime"/>
+		</addColumn>
+	</changeSet>
  
 </databaseChangeLog>
