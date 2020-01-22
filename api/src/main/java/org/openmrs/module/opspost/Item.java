@@ -85,35 +85,4 @@ public class Item extends BaseOpenmrsData {
 	
 	// Lombok creates @Getters and setters
 	
-	//	public Patient getPatient() {
-	//		return patient;
-	//	}
-	//
-	//	public void setPatient(Patient patient) {
-	//		this.patient = patient;
-	//	}
-	//
-	//	public String getApiKey() {
-	//		return apiKey;
-	//	}
-	//
-	//	public void setApiKey(String apiKey) {
-	//		this.apiKey = apiKey;
-	//	}
-	//
-	//	public Date getUpdatedOn() {
-	//        return updatedOn;
-	//    }
-	//
-	//    public void setUpdatedOn(Date updatedOn) {
-	//        this.updatedOn = updatedOn;
-	//    }
-	//
-	//    public String getUpdatedBy() {
-	//        return updatedBy;
-	//    }
-	//
-	//    public void setUpdatedBy(String updatedBy) {
-	//        this.updatedBy = updatedBy;
-	//    }
 }
