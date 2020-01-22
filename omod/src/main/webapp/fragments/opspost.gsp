@@ -8,10 +8,8 @@ jQuery( document ).ready(function() {
                 patientId: "${patient.id}"
             },
             function (data) {
-                jQuery("#apikey").val(data);
-            })
-            .error(function () {
-                jQuery().toastmessage('showErrorToast', "Error. Try again after page refresh");
+                console.log(data);
+                jQuery("#apikey").text(data);
             });
     });
 });
@@ -20,9 +18,11 @@ jQuery( document ).ready(function() {
 <div id="opspost-main" class="info-section opspost">
     <div class="info-header">
         <i class="icon-user-md"></i>
-            <h3>API - Key <div id="apikey">${apiKey}</div></h3>
+            <h3>API - Key</h3>
     </div>
-
+        <textarea id="apikey">
+        ${apiKey}
+        </textarea>
         <a class="button" id="but_reset">
             <i class="icon-upload-alt"></i>
         </a>

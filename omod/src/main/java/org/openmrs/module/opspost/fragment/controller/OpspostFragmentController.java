@@ -45,10 +45,10 @@ public class OpspostFragmentController {
 		model.addAttribute("apiKey", apiKey);
 	}
 	
-	public Object resetApiKey(@RequestParam("patientId") String patientId) throws NoSuchAlgorithmException,
+	public String resetApiKey(@RequestParam("patientId") String patientId) throws NoSuchAlgorithmException,
 	        UnsupportedEncodingException {
 		
-		SimpleObject output = new SimpleObject();
+		// SimpleObject output = new SimpleObject();
 		
 		Item item = new Item();
 		OpspostService opspostService = Context.getService(OpspostService.class);
@@ -59,7 +59,7 @@ public class OpspostFragmentController {
 		item.setPatient(patient);
 		item.setApiKey(generateUniqueKeysWithUUIDAndMessageDigest());
 		
-		opspostService.saveItem(item);
+		//opspostService.saveItem(item);
 		
 		// if (toDelete.delete()) {
 		// 	output = SimpleObject.create("message", MESSAGE_SUCCESS);
@@ -67,9 +67,9 @@ public class OpspostFragmentController {
 		// 	output = SimpleObject.create("message", MESSAGE_ERROR);
 		// }
 		
-		output.put("apiKey", item.getApiKey());
+		// output.put("apiKey", item.getApiKey());
 		
-		return (Object) output;
+		return item.getApiKey();
 	}
 	
 	// https://github.com/eugenp/tutorials/blob/master/core-java-modules/core-java/src/main/java/com/baeldung/uuid/UUIDGenerator.java
