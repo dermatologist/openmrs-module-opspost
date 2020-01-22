@@ -45,22 +45,27 @@ public class OpspostFragmentController {
 		model.addAttribute("apiKey", apiKey);
 	}
 	
-	public String resetApiKey(@RequestParam("patientId") String patientId) throws NoSuchAlgorithmException,
+	public String resetApiKey(@RequestParam("patientId") String patientId,
+	        @SpringBean("patientService") PatientService patientService,
+	        @SpringBean("opspost.OpspostService") OpspostService opspostService) throws NoSuchAlgorithmException,
 	        UnsupportedEncodingException {
 		
 		// SimpleObject output = new SimpleObject();
 		
 		Item item = new Item();
-		OpspostService opspostService = Context.getService(OpspostService.class);
-		PatientService patientService = Context.getPatientService();
+		// OpspostService opspostService = Context.getService(OpspostService.class);
+		// PatientService patientService = Context.getPatientService();
 		
 		Patient patient = patientService.getPatient(Integer.parseInt(patientId));
 		
-		item.setPatient(patient);
-		item.setApiKey(generateUniqueKeysWithUUIDAndMessageDigest());
+		if (patient != null) {
+			item.setPatient(patient);
+			item.setApiKey(generateUniqueKeysWithUUIDAndMessageDigest());
+		}
 		
-		//opspostService.saveItem(item);
-		
+		if (opspostService != null)
+			opspostService.saveItem(item);
+		// System.out.println(opspostService.toString());
 		// if (toDelete.delete()) {
 		// 	output = SimpleObject.create("message", MESSAGE_SUCCESS);
 		// } else {
