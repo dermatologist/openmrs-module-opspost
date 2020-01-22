@@ -10,7 +10,10 @@
 package org.openmrs.module.opspost;
 
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.Patient;
 import org.openmrs.User;
+
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,15 +21,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
- * Please note that a corresponding table schema must be created in liquibase.xml.
+ * Lombok
+ * 
+ * @Data All together now: A shortcut for @ToString, @EqualsAndHashCode, @Getter on all fields,
+ * @Setter on all non-final fields, and @RequiredArgsConstructor! Please note that a corresponding
+ *         table schema must be created in liquibase.xml.
  */
 //Uncomment 2 lines below if you want to make the Item class persistable, see also OpspostDaoTest and liquibase.xml
-//@Entity(name = "opspost.Item")
-//@Table(name = "opspost_item")
+@Data(staticConstructor = "of")
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Entity(name = "opspost.Item")
+@Table(name = "opspost_item")
 public class Item extends BaseOpenmrsData {
 	
 	@Id
@@ -34,13 +49,21 @@ public class Item extends BaseOpenmrsData {
 	@Column(name = "opspost_item_id")
 	private Integer id;
 	
-	@ManyToOne
-	@JoinColumn(name = "owner")
-	private User owner;
+	@OneToOne
+	@JoinColumn(name = "patient")
+	private Patient patient;
 	
 	@Basic
-	@Column(name = "description", length = 255)
-	private String description;
+	@Column(name = "api_key", length = 72)
+	private String apiKey = "";
+	
+	@Basic
+	@Column(name = "updated_by", length = 255)
+	private String updatedBy = "UNKNOWN";
+	
+	@Basic
+	@Column(name = "updated_on")
+	private Date updatedOn;
 	
 	@Override
 	public Integer getId() {
@@ -62,19 +85,6 @@ public class Item extends BaseOpenmrsData {
 		super.setUuid(uuid);
 	}
 	
-	public User getOwner() {
-		return owner;
-	}
+	// Lombok creates @Getters and setters
 	
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
 }

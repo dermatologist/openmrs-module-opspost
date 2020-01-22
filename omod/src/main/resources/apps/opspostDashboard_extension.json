@@ -1,0 +1,10 @@
+[
+    { 
+      "id": "opspost.dashboard",
+      "extensionPointId": "patientDashboard.secondColumnFragments",
+      "extensionParams": {
+        "provider": "opspost",
+        "fragment": "opspost"
+      }
+    }
+  ]

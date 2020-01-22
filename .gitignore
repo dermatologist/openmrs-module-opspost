@@ -25,7 +25,8 @@ local.properties
 .settings/
 .loadpath
 
-# Mac OS files
+# Mac OS files & vscode
 .DS_Store
 omod/.factorypath
 **/.factorypath
+.vscode

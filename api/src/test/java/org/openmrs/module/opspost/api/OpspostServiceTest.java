@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.openmrs.User;
-import org.openmrs.api.UserService;
+import org.openmrs.Patient;
+import org.openmrs.api.PatientService;
 import org.openmrs.module.opspost.Item;
 import org.openmrs.module.opspost.api.dao.OpspostDao;
 import org.openmrs.module.opspost.api.impl.OpspostServiceImpl;
@@ -36,7 +36,7 @@ public class OpspostServiceTest {
 	OpspostDao dao;
 	
 	@Mock
-	UserService userService;
+	PatientService patientService;
 	
 	@Before
 	public void setupMocks() {
@@ -47,17 +47,18 @@ public class OpspostServiceTest {
 	public void saveItem_shouldSetOwnerIfNotSet() {
 		//Given
 		Item item = new Item();
-		item.setDescription("some description");
+		item.setApiKey("some-api-key");
 		
 		when(dao.saveItem(item)).thenReturn(item);
 		
-		User user = new User();
-		when(userService.getUser(1)).thenReturn(user);
+		Patient patient = new Patient();
+		when(patientService.getPatient(1)).thenReturn(patient);
 		
+		item.setPatient(patient);
 		//When
 		basicModuleService.saveItem(item);
 		
 		//Then
-		assertThat(item, hasProperty("owner", is(user)));
+		assertThat(item, hasProperty("patient", is(patient)));
 	}
 }

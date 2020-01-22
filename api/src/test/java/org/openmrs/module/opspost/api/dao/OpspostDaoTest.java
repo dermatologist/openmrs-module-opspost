@@ -11,9 +11,10 @@ package org.openmrs.module.opspost.api.dao;
 
 import org.junit.Test;
 import org.junit.Ignore;
-import org.openmrs.api.UserService;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.opspost.Item;
+import org.openmrs.module.opspost.api.dao.OpspostDao;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.hamcrest.Matchers.*;
@@ -31,15 +32,15 @@ public class OpspostDaoTest extends BaseModuleContextSensitiveTest {
 	OpspostDao dao;
 	
 	@Autowired
-	UserService userService;
+	PatientService patientService;
 	
 	@Test
 	@Ignore("Unignore if you want to make the Item class persistable, see also Item and liquibase.xml")
 	public void saveItem_shouldSaveAllPropertiesInDb() {
 		//Given
 		Item item = new Item();
-		item.setDescription("some description");
-		item.setOwner(userService.getUser(1));
+		item.setApiKey("some-api-key");
+		item.setPatient(patientService.getPatient(1));
 		
 		//When
 		dao.saveItem(item);
@@ -52,7 +53,7 @@ public class OpspostDaoTest extends BaseModuleContextSensitiveTest {
 		Item savedItem = dao.getItemByUuid(item.getUuid());
 		
 		assertThat(savedItem, hasProperty("uuid", is(item.getUuid())));
-		assertThat(savedItem, hasProperty("owner", is(item.getOwner())));
-		assertThat(savedItem, hasProperty("description", is(item.getDescription())));
+		assertThat(savedItem, hasProperty("patient", is(item.getPatient())));
+		assertThat(savedItem, hasProperty("apiKey", is(item.getApiKey())));
 	}
 }
