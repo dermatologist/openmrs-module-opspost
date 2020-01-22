@@ -1,18 +1,20 @@
 <script>
-    var jq = jQuery;
-    jq("#but_reset").click(function (e) {
-        jq.post("${ ui.actionLink("resetApiKey")}", {
+jQuery( document ).ready(function() {
+    jQuery("#but_reset").click(function (e) {
+        console.log("Clicked");
+        jQuery.post("${ ui.actionLink("resetApiKey")}", {
                 returnFormat: 'json',
                 type: "data",
                 patientId: "${patient.id}"
             },
             function (data) {
-                jq("#apikey").val(data);
+                jQuery("#apikey").val(data);
             })
             .error(function () {
-                jq().toastmessage('showErrorToast', "Error. Try again after page refresh");
+                jQuery().toastmessage('showErrorToast', "Error. Try again after page refresh");
             });
     });
+});
 </script>
 
 <div id="opspost-main" class="info-section opspost">

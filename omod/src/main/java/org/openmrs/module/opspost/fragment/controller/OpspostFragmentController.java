@@ -50,7 +50,9 @@ public class OpspostFragmentController {
 		model.addAttribute("apiKey", apiKey);
 	}
 	
-	public Object resetApiKey(@RequestParam("patientId") String patientId) throws NoSuchAlgorithmException,
+	public Object resetApiKey(@RequestParam("patientId") String patientId,
+	        @SpringBean("patientService") PatientService patientService,
+	        @SpringBean("opspost.OpspostService") OpspostService opspostService) throws NoSuchAlgorithmException,
 	        UnsupportedEncodingException {
 		
 		SimpleObject output = new SimpleObject();

@@ -54,7 +54,7 @@ public class Item extends BaseOpenmrsData {
 	private Patient patient;
 	
 	@Basic
-	@Column(name = "api_key", length = 38)
+	@Column(name = "api_key", length = 72)
 	private String apiKey = "";
 	
 	@Basic

@@ -91,5 +91,12 @@
 			<column name="voided" type="boolean"/>
 		</addColumn>
 	</changeSet>
+
+    <changeSet author="beapen" id="opspost-2020-01-21">
+        <modifyColumn tableName="opspost_item">
+            <column name="api_key" type="char(72)">
+            </column>
+        </modifyColumn>
+    </changeSet>
  
 </databaseChangeLog>
