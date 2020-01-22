@@ -35,7 +35,7 @@ public class OpspostDao {
 		getSession().saveOrUpdate(item);
 		return item;
 	}
-
+	
 	public Item getItemByApikey(String apiKey) {
 		return (Item) getSession().createCriteria(Item.class).add(Restrictions.eq("apiKey", apiKey)).uniqueResult();
 	}
@@ -43,5 +43,5 @@ public class OpspostDao {
 	public Item getItemByPatient(Patient patient) {
 		return (Item) getSession().createCriteria(Item.class).add(Restrictions.eq("patient", patient)).uniqueResult();
 	}
-
+	
 }

@@ -1,13 +1,32 @@
+<script>
+    var jq = jQuery;
+    jq("#but_delete").click(function (e) {
+        jq.post("${ ui.actionLink("resetApiKey")}", {
+                returnFormat: 'json',
+                type: "data",
+                patientId: "${patient.id}"
+            },
+            function (data) {
+                if(data.indexOf("${MESSAGE_SUCCESS}")>=0){
+                    jq().toastmessage('showSuccessToast', "Key Reset");
+                    location.reload();
+                }else{
+                    jq().toastmessage('showErrorToast', "Error. Try again after page refresh");
+                }
+            })
+            .error(function () {
+                jq().toastmessage('showErrorToast', "Error. Try again after page refresh");
+            });
+    });
+</script>
+
 <div id="dermimage-main" class="info-section dermimage">
     <div class="info-header">
         <i class="icon-user-md"></i>
-        <a href="../../owa/dermatology/index.html#/${uuid}/concept/${ccuuid}"><i class="icon-camera"></i>
-
-            <h3>DERMATOLOGY</h3></a>
+            <h3>API - Key ${apiKey}</h3>
     </div>
-    <!--
-    <i class="icon-camera"></i><a href="../../owa/dermatology/index.html#/${patient.id}">Pictures</a><br>
-    <i class="icon-pencil"></i><a href="../../owa/dermatology/index.html#/lesionmap/${uuid}">Lesion Map</a><br>
-    <i class="icon-book"></i><a href="../../owa/dermatology/index.html#/shd/${patient.id}">SkinHelpDesk</a>
-    -->
+
+        <a class="button" id="but_reset">
+            <i class="icon-upload-alt"></i>
+        </a>
 </div>

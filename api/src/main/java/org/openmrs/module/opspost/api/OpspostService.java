@@ -46,11 +46,10 @@ public interface OpspostService extends OpenmrsService {
 	@Authorized(OpspostConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Item saveItem(Item item) throws APIException;
-
-
+	
 	/**
-	 * Returns an item by apiKey. Used to fetch the patient for a post.
-	 * Can be called by users with this module's privilege. 
+	 * Returns an item by apiKey. Used to fetch the patient for a post. Can be called by users with
+	 * this module's privilege.
 	 * 
 	 * @param apiKey
 	 * @return
@@ -59,10 +58,10 @@ public interface OpspostService extends OpenmrsService {
 	@Authorized(OpspostConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	Item getItemByApikey(String apiKey) throws APIException;
-
+	
 	/**
-	 * Returns an item by apiKey. Used to fetch the api key for display in patient chart.
-	 * Can be called by users with this module's privilege.
+	 * Returns an item by apiKey. Used to fetch the api key for display in patient chart. Can be
+	 * called by users with this module's privilege.
 	 * 
 	 * @param patient
 	 * @return
@@ -71,6 +70,5 @@ public interface OpspostService extends OpenmrsService {
 	@Authorized(OpspostConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	Item getItemByPatient(Patient patient) throws APIException;
-
-
+	
 }

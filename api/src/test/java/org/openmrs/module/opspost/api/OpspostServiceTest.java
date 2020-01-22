@@ -47,13 +47,14 @@ public class OpspostServiceTest {
 	public void saveItem_shouldSetOwnerIfNotSet() {
 		//Given
 		Item item = new Item();
-		item.setApikey("some-api-key");
+		item.setApiKey("some-api-key");
 		
 		when(dao.saveItem(item)).thenReturn(item);
 		
 		Patient patient = new Patient();
 		when(patientService.getPatient(1)).thenReturn(patient);
 		
+		item.setPatient(patient);
 		//When
 		basicModuleService.saveItem(item);
 		

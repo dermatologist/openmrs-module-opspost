@@ -40,7 +40,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/rest/" + RestConstants.VERSION_1 + "/opspost")
 public class OpspostResourceController extends MainResourceController {
-
+	
 	private static final Logger log = LoggerFactory.getLogger(OpspostResourceController.class);
 	
 	@Autowired
@@ -70,45 +70,45 @@ public class OpspostResourceController extends MainResourceController {
 	        throws ResponseException {
 		baseUriSetup.setup(request);
 		
-//		AdministrationService administrationService = Context.getAdministrationService();
-//		String shdUrl = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_SERVICEURL,
-//		    OpspostConstants.DERM_SHD_SERVICEURL_DEFAULT);
-//
-//		String shdUser = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_USERNAME,
-//		    OpspostConstants.DERM_SHD_USERNAME_DEFAULT);
-//
-//		String shdPw = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_PASSWORD,
-//		    OpspostConstants.DERM_SHD_PASSWORD_DEFAULT);
-//
-//		String shdCallback = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_CALLBACK,
-//		    OpspostConstants.DERM_SHD_CALLBACK_DEFAULT);
+		//		AdministrationService administrationService = Context.getAdministrationService();
+		//		String shdUrl = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_SERVICEURL,
+		//		    OpspostConstants.DERM_SHD_SERVICEURL_DEFAULT);
+		//
+		//		String shdUser = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_USERNAME,
+		//		    OpspostConstants.DERM_SHD_USERNAME_DEFAULT);
+		//
+		//		String shdPw = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_PASSWORD,
+		//		    OpspostConstants.DERM_SHD_PASSWORD_DEFAULT);
+		//
+		//		String shdCallback = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_CALLBACK,
+		//		    OpspostConstants.DERM_SHD_CALLBACK_DEFAULT);
 		
-//		SimpleObject output = new SimpleObject();
-//		output.add("post", post);
-//		output.add("callback", shdCallback);
-//		final CloseableHttpClient client = HttpClients.createDefault();
-//		final HttpPost httpPost = new HttpPost(shdUrl);
-//		final UsernamePasswordCredentials creds = new UsernamePasswordCredentials(shdUser, shdPw);
-//		Gson gson = new Gson();
-//		try {
-//			httpPost.setEntity(new StringEntity(gson.toJson(output)));
-//			httpPost.addHeader(new BasicScheme().authenticate(creds, httpPost, null));
-//			final CloseableHttpResponse shdResponse = client.execute(httpPost);
-//			output.add("shd", shdResponse.toString());
-//			output.add("message", "Success!");
-//			client.close();
-//		}
-//		catch (AuthenticationException e) {
-//			e.printStackTrace();
-//		}
-//		catch (ClientProtocolException e) {
-//			e.printStackTrace();
-//		}
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		log.info("Posted message from OWA to SHD");
-//		return output;
+		//		SimpleObject output = new SimpleObject();
+		//		output.add("post", post);
+		//		output.add("callback", shdCallback);
+		//		final CloseableHttpClient client = HttpClients.createDefault();
+		//		final HttpPost httpPost = new HttpPost(shdUrl);
+		//		final UsernamePasswordCredentials creds = new UsernamePasswordCredentials(shdUser, shdPw);
+		//		Gson gson = new Gson();
+		//		try {
+		//			httpPost.setEntity(new StringEntity(gson.toJson(output)));
+		//			httpPost.addHeader(new BasicScheme().authenticate(creds, httpPost, null));
+		//			final CloseableHttpResponse shdResponse = client.execute(httpPost);
+		//			output.add("shd", shdResponse.toString());
+		//			output.add("message", "Success!");
+		//			client.close();
+		//		}
+		//		catch (AuthenticationException e) {
+		//			e.printStackTrace();
+		//		}
+		//		catch (ClientProtocolException e) {
+		//			e.printStackTrace();
+		//		}
+		//		catch (IOException e) {
+		//			e.printStackTrace();
+		//		}
+		//		log.info("Posted message from OWA to SHD");
+		//		return output;
 		return post;
 	}
 	
@@ -124,40 +124,40 @@ public class OpspostResourceController extends MainResourceController {
 	public Object fromShd(@RequestBody SimpleObject post, HttpServletRequest request, HttpServletResponse response)
 	        throws ResponseException, IOException {
 		baseUriSetup.setup(request);
-
+		
 		// Build the Complex concept		
-//		ConceptComplex conceptComplex = (ConceptComplex) Context.getConceptService().getConceptByUuid(
-//				(String) post.get("conceptId"));
-//		Obs obs = new Obs();
-//		obs.setConcept(conceptComplex);
-//
-//		String img = post.get("image");
-//		DermImageFile dermImageFile = new DermImageFile(img);
-//		String extension = dermImageFile.getFileExtension();
-//		BufferedImage image = ShdUtils.decodeToImage(dermImageFile.getBase64ImageString());
-//
-//		// Add watermark
-//		String message = post.get("message");
-//		if (message.length() > 1)
-//			image = ShdUtilsToRefactor.watermark(image, message);
-//
-//		String fileName = "Shd_" + obs.getUuid() + "." + extension;
-//		ComplexData complexData = new ComplexData(fileName, image);
-//		complexData.setMimeType(dermImageFile.getMimeType());
-//		obs.setComplexData(complexData);
-//		Person person = Context.getPersonService().getPersonByUuid((String) post.get("patientId"));
-//		obs.setPerson(person);
-//		obs.setCreator(Context.getAuthenticatedUser());
-//		obs.setDateCreated(new Date());
-//		obs.setObsDatetime(new Date());
-//		Context.getObsService().saveObs(obs, fileName);
-//
-//		SimpleObject output = new SimpleObject();
-//		output.add("post", post);
-//		String obsId = obs.getId().toString();
-//		output.add("id", obsId);
-//		log.info("Received an image from SHD");
-//		return output;
+		//		ConceptComplex conceptComplex = (ConceptComplex) Context.getConceptService().getConceptByUuid(
+		//				(String) post.get("conceptId"));
+		//		Obs obs = new Obs();
+		//		obs.setConcept(conceptComplex);
+		//
+		//		String img = post.get("image");
+		//		DermImageFile dermImageFile = new DermImageFile(img);
+		//		String extension = dermImageFile.getFileExtension();
+		//		BufferedImage image = ShdUtils.decodeToImage(dermImageFile.getBase64ImageString());
+		//
+		//		// Add watermark
+		//		String message = post.get("message");
+		//		if (message.length() > 1)
+		//			image = ShdUtilsToRefactor.watermark(image, message);
+		//
+		//		String fileName = "Shd_" + obs.getUuid() + "." + extension;
+		//		ComplexData complexData = new ComplexData(fileName, image);
+		//		complexData.setMimeType(dermImageFile.getMimeType());
+		//		obs.setComplexData(complexData);
+		//		Person person = Context.getPersonService().getPersonByUuid((String) post.get("patientId"));
+		//		obs.setPerson(person);
+		//		obs.setCreator(Context.getAuthenticatedUser());
+		//		obs.setDateCreated(new Date());
+		//		obs.setObsDatetime(new Date());
+		//		Context.getObsService().saveObs(obs, fileName);
+		//
+		//		SimpleObject output = new SimpleObject();
+		//		output.add("post", post);
+		//		String obsId = obs.getId().toString();
+		//		output.add("id", obsId);
+		//		log.info("Received an image from SHD");
+		//		return output;
 		return post;
 	}
 	

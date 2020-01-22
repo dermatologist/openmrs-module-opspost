@@ -43,10 +43,10 @@ public class OpspostServiceImpl extends BaseOpenmrsService implements OpspostSer
 	}
 	
 	@Override
-	public Item saveItem(Item item) throws APIException {		
+	public Item saveItem(Item item) throws APIException {
 		return dao.saveItem(item);
 	}
-
+	
 	@Override
 	public Item getItemByApikey(String apiKey) throws APIException {
 		return dao.getItemByApikey(apiKey);
@@ -56,6 +56,5 @@ public class OpspostServiceImpl extends BaseOpenmrsService implements OpspostSer
 	public Item getItemByPatient(Patient patient) throws APIException {
 		return dao.getItemByPatient(patient);
 	}
-	
 	
 }

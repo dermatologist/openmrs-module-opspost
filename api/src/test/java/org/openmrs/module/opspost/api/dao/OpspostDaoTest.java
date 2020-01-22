@@ -21,17 +21,16 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
- * It is an integration test (extends BaseModuleContextSensitiveTest), which
- * verifies DAO methods against the in-memory H2 database. The database is
- * initially loaded with data from standardTestDataset.xml in openmrs-api. All
- * test methods are executed in transactions, which are rolled back by the end
- * of each test method.
+ * It is an integration test (extends BaseModuleContextSensitiveTest), which verifies DAO methods
+ * against the in-memory H2 database. The database is initially loaded with data from
+ * standardTestDataset.xml in openmrs-api. All test methods are executed in transactions, which are
+ * rolled back by the end of each test method.
  */
 public class OpspostDaoTest extends BaseModuleContextSensitiveTest {
-
+	
 	@Autowired
 	OpspostDao dao;
-
+	
 	@Autowired
 	PatientService patientService;
 	
@@ -40,7 +39,7 @@ public class OpspostDaoTest extends BaseModuleContextSensitiveTest {
 	public void saveItem_shouldSaveAllPropertiesInDb() {
 		//Given
 		Item item = new Item();
-		item.setApikey("some-api-key");
+		item.setApiKey("some-api-key");
 		item.setPatient(patientService.getPatient(1));
 		
 		//When
@@ -55,6 +54,6 @@ public class OpspostDaoTest extends BaseModuleContextSensitiveTest {
 		
 		assertThat(savedItem, hasProperty("uuid", is(item.getUuid())));
 		assertThat(savedItem, hasProperty("patient", is(item.getPatient())));
-		assertThat(savedItem, hasProperty("apiKey", is(item.getApikey())));
+		assertThat(savedItem, hasProperty("apiKey", is(item.getApiKey())));
 	}
 }
