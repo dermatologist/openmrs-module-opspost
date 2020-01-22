@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.openmrs.Patient;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.opspost.Item;
 import org.openmrs.module.opspost.api.OpspostService;
 import org.openmrs.ui.framework.SimpleObject;
@@ -18,12 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class OpspostFragmentController {
-	
-	@Autowired
-	OpspostService opspostService;
-	
-	@Autowired
-	PatientService patientService;
 	
 	private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 	
@@ -50,14 +45,14 @@ public class OpspostFragmentController {
 		model.addAttribute("apiKey", apiKey);
 	}
 	
-	public Object resetApiKey(@RequestParam("patientId") String patientId,
-	        @SpringBean("patientService") PatientService patientService,
-	        @SpringBean("opspost.OpspostService") OpspostService opspostService) throws NoSuchAlgorithmException,
+	public Object resetApiKey(@RequestParam("patientId") String patientId) throws NoSuchAlgorithmException,
 	        UnsupportedEncodingException {
 		
 		SimpleObject output = new SimpleObject();
 		
 		Item item = new Item();
+		OpspostService opspostService = Context.getService(OpspostService.class);
+		PatientService patientService = Context.getPatientService();
 		
 		Patient patient = patientService.getPatient(Integer.parseInt(patientId));
 		
