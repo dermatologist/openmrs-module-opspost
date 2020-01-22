@@ -81,6 +81,22 @@ public class Item extends BaseOpenmrsData {
 	@Column(name = "date_created")
 	private Date dateCreated;
 	
+	@Transient
+	@Column(name = "voided")
+	private Boolean voided;
+	
+	@Transient
+	@Column(name = "voided_by")
+	private User voidedBy;
+	
+	@Transient
+	@Column(name = "date_voided")
+	private Date dateVoided;
+	
+	@Transient
+	@Column(name = "void_reason", length = 255)
+	private String voidReason = "UNKNOWN";
+	
 	@Override
 	public Integer getId() {
 		return id;
