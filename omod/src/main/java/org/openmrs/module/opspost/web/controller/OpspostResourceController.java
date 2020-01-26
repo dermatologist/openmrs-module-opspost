@@ -36,9 +36,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Date;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -70,141 +72,61 @@ public class OpspostResourceController extends MainResourceController {
 	}
 	
 	// GET /openmrs/ws/rest/v1/session with the BASIC credentials will return the current token value
-	@RequestMapping(value = "/token", method = RequestMethod.GET)
-@ResponseBody
-public String retrieve(@PathVariable("apikey") String apikey, HttpServletRequest servletRequest) throws IOException {
-	
-	HttpGet request = new HttpGet("/openmrs/ws/rest/v1/session");
-
-	CredentialsProvider provider = new BasicCredentialsProvider();
-	provider.setCredentials(
-			AuthScope.ANY,
-			new UsernamePasswordCredentials("admin", "Admin123")
-	);
-
-	String result = "";
-
-	try (CloseableHttpClient httpClient = HttpClientBuilder.create()
-			.setDefaultCredentialsProvider(provider)
-			.build();
-		 CloseableHttpResponse response = httpClient.execute(request)) {
-
-		// 401 if wrong user/password
-		System.out.println(response.getStatusLine().getStatusCode());   
-
-		HttpEntity entity = response.getEntity();
-		if (entity != null) {
-			// return it as a String
-			result = EntityUtils.toString(entity);
-			System.out.println(result);
-		}
-
-	}
-	return result;
-}
-	
-	/**
-	 * @param post from the owa
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/owa", method = RequestMethod.POST)
+	// /openmrs/ws/rest/v1/opspost/your-api-key
+	@RequestMapping(value = "/{apikey}", method = RequestMethod.GET)
 	@ResponseBody
-	public Object createShd(@RequestBody SimpleObject post, HttpServletRequest request, HttpServletResponse response)
-	        throws ResponseException {
-		baseUriSetup.setup(request);
-		
-		//		AdministrationService administrationService = Context.getAdministrationService();
-		//		String shdUrl = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_SERVICEURL,
-		//		    OpspostConstants.DERM_SHD_SERVICEURL_DEFAULT);
-		//
-		//		String shdUser = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_USERNAME,
-		//		    OpspostConstants.DERM_SHD_USERNAME_DEFAULT);
-		//
-		//		String shdPw = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_PASSWORD,
-		//		    OpspostConstants.DERM_SHD_PASSWORD_DEFAULT);
-		//
-		//		String shdCallback = administrationService.getGlobalProperty(OpspostConstants.DERM_SHD_CALLBACK,
-		//		    OpspostConstants.DERM_SHD_CALLBACK_DEFAULT);
-		
-		//		SimpleObject output = new SimpleObject();
-		//		output.add("post", post);
-		//		output.add("callback", shdCallback);
-		//		final CloseableHttpClient client = HttpClients.createDefault();
-		//		final HttpPost httpPost = new HttpPost(shdUrl);
-		//		final UsernamePasswordCredentials creds = new UsernamePasswordCredentials(shdUser, shdPw);
-		//		Gson gson = new Gson();
-		//		try {
-		//			httpPost.setEntity(new StringEntity(gson.toJson(output)));
-		//			httpPost.addHeader(new BasicScheme().authenticate(creds, httpPost, null));
-		//			final CloseableHttpResponse shdResponse = client.execute(httpPost);
-		//			output.add("shd", shdResponse.toString());
-		//			output.add("message", "Success!");
-		//			client.close();
-		//		}
-		//		catch (AuthenticationException e) {
-		//			e.printStackTrace();
-		//		}
-		//		catch (ClientProtocolException e) {
-		//			e.printStackTrace();
-		//		}
-		//		catch (IOException e) {
-		//			e.printStackTrace();
-		//		}
-		//		log.info("Posted message from OWA to SHD");
-		//		return output;
-		return post;
-	}
+	public String retrieve(@PathVariable("apikey") String apikey, HttpServletRequest servletRequest) throws IOException {
 	
-	/**
-	 * @param post callback from shd
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/shd", method = RequestMethod.POST)
-	@ResponseBody
-	public Object fromShd(@RequestBody SimpleObject post, HttpServletRequest request, HttpServletResponse response)
-	        throws ResponseException, IOException {
-		baseUriSetup.setup(request);
-		
-		// Build the Complex concept		
-		//		ConceptComplex conceptComplex = (ConceptComplex) Context.getConceptService().getConceptByUuid(
-		//				(String) post.get("conceptId"));
-		//		Obs obs = new Obs();
-		//		obs.setConcept(conceptComplex);
-		//
-		//		String img = post.get("image");
-		//		DermImageFile dermImageFile = new DermImageFile(img);
-		//		String extension = dermImageFile.getFileExtension();
-		//		BufferedImage image = ShdUtils.decodeToImage(dermImageFile.getBase64ImageString());
-		//
-		//		// Add watermark
-		//		String message = post.get("message");
-		//		if (message.length() > 1)
-		//			image = ShdUtilsToRefactor.watermark(image, message);
-		//
-		//		String fileName = "Shd_" + obs.getUuid() + "." + extension;
-		//		ComplexData complexData = new ComplexData(fileName, image);
-		//		complexData.setMimeType(dermImageFile.getMimeType());
-		//		obs.setComplexData(complexData);
-		//		Person person = Context.getPersonService().getPersonByUuid((String) post.get("patientId"));
-		//		obs.setPerson(person);
-		//		obs.setCreator(Context.getAuthenticatedUser());
-		//		obs.setDateCreated(new Date());
-		//		obs.setObsDatetime(new Date());
-		//		Context.getObsService().saveObs(obs, fileName);
-		//
-		//		SimpleObject output = new SimpleObject();
-		//		output.add("post", post);
-		//		String obsId = obs.getId().toString();
-		//		output.add("id", obsId);
-		//		log.info("Received an image from SHD");
-		//		return output;
-		return post;
+		HttpGet request = new HttpGet("http://tomcat.nuchange.ca:6091/openmrs/ws/rest/v1/session");
+
+		String encoding = Base64.getEncoder().encodeToString(("admin:Admin123").getBytes());
+
+		request.addHeader(HttpHeaders.AUTHORIZATION, "Basic " + encoding);
+		// CredentialsProvider provider = new BasicCredentialsProvider();
+		// provider.setCredentials(
+		// 		AuthScope.ANY,
+		// 		new UsernamePasswordCredentials("admin", "Admin123")
+		// );
+
+		String result = "";
+
+		// https://mkyong.com/java/apache-httpclient-examples/
+		try (CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse response = httpClient.execute(request)) {
+
+			// Get HttpResponse Status
+			// System.out.println(response.getProtocolVersion());              // HTTP/1.1
+			// System.out.println(response.getStatusLine().getStatusCode());   // 200
+			// System.out.println(response.getStatusLine().getReasonPhrase()); // OK
+			// System.out.println(response.getStatusLine().toString());        // HTTP/1.1 200 OK
+
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				// return it as a String
+				result = EntityUtils.toString(entity);
+				System.out.println(result);
+			}
+
+   		}
+
+		// try (CloseableHttpClient httpClient = HttpClientBuilder.create()
+		// 		.setDefaultCredentialsProvider(provider)
+		// 		.build();
+		// 	CloseableHttpResponse response = httpClient.execute(request)) {
+
+		// 	// 401 if wrong user/password
+		// 	System.out.println(response.getStatusLine().getStatusCode());   
+
+		// 	HttpEntity entity = response.getEntity();
+		// 	if (entity != null) {
+		// 		// return it as a String
+		// 		result = EntityUtils.toString(entity);
+		// 		System.out.println(result);
+		// 	}
+
+		// }
+		return result;
 	}
+
 	
 }
