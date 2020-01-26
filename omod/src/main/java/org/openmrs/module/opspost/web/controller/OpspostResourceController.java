@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +37,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 @Controller
 @RequestMapping("/rest/" + RestConstants.VERSION_1 + "/opspost")
@@ -56,6 +68,40 @@ public class OpspostResourceController extends MainResourceController {
 	public String getNamespace() {
 		return "v1/opspost";
 	}
+	
+	// GET /openmrs/ws/rest/v1/session with the BASIC credentials will return the current token value
+	@RequestMapping(value = "/token", method = RequestMethod.GET)
+@ResponseBody
+public String retrieve(@PathVariable("apikey") String apikey, HttpServletRequest servletRequest) throws IOException {
+	
+	HttpGet request = new HttpGet("/openmrs/ws/rest/v1/session");
+
+	CredentialsProvider provider = new BasicCredentialsProvider();
+	provider.setCredentials(
+			AuthScope.ANY,
+			new UsernamePasswordCredentials("admin", "Admin123")
+	);
+
+	String result = "";
+
+	try (CloseableHttpClient httpClient = HttpClientBuilder.create()
+			.setDefaultCredentialsProvider(provider)
+			.build();
+		 CloseableHttpResponse response = httpClient.execute(request)) {
+
+		// 401 if wrong user/password
+		System.out.println(response.getStatusLine().getStatusCode());   
+
+		HttpEntity entity = response.getEntity();
+		if (entity != null) {
+			// return it as a String
+			result = EntityUtils.toString(entity);
+			System.out.println(result);
+		}
+
+	}
+	return result;
+}
 	
 	/**
 	 * @param post from the owa
