@@ -72,7 +72,28 @@
 		</description>
 	</globalProperty>
 	/Required Global Properties -->
-	
+	<globalProperty>
+		<property>opspost.username</property>
+		<defaultValue>admin</defaultValue>
+		<description>
+			The username for opspost.
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>opspost.password</property>
+		<defaultValue>Admin123</defaultValue>
+		<description>
+			The password to use for opspost
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>opspost.baseurl</property>
+		<defaultValue>unknown</defaultValue>
+		<description>
+			The base URL for opspost
+		</description>
+	</globalProperty>
+
 	<!--
 	<dwr>
 		<allow>
