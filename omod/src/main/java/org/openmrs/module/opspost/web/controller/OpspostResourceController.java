@@ -15,6 +15,7 @@ import org.openmrs.Obs;
 import org.openmrs.Person;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.opspost.api.OpspostService;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.api.RestService;
@@ -63,6 +64,9 @@ public class OpspostResourceController extends MainResourceController {
 	@Autowired
 	BaseUriSetup baseUriSetup;
 	
+	@Autowired
+	OpspostService opspostService;
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController#getNamespace()
 	 */
@@ -77,56 +81,56 @@ public class OpspostResourceController extends MainResourceController {
 	@ResponseBody
 	public String retrieve(@PathVariable("apikey") String apikey, HttpServletRequest servletRequest) throws IOException {
 	
-		HttpGet request = new HttpGet("http://tomcat.nuchange.ca:6091/openmrs/ws/rest/v1/session");
-
-		String encoding = Base64.getEncoder().encodeToString(("admin:Admin123").getBytes());
-
-		request.addHeader(HttpHeaders.AUTHORIZATION, "Basic " + encoding);
-		// CredentialsProvider provider = new BasicCredentialsProvider();
-		// provider.setCredentials(
-		// 		AuthScope.ANY,
-		// 		new UsernamePasswordCredentials("admin", "Admin123")
-		// );
-
 		String result = "";
 
-		// https://mkyong.com/java/apache-httpclient-examples/
-		try (CloseableHttpClient httpClient = HttpClients.createDefault();
-		CloseableHttpResponse response = httpClient.execute(request)) {
+		if(opspostService.getItemByApikey(apikey) != null){
+			HttpGet request = new HttpGet("http://tomcat.nuchange.ca:6091/openmrs/ws/rest/v1/session");
 
-			// Get HttpResponse Status
-			// System.out.println(response.getProtocolVersion());              // HTTP/1.1
-			// System.out.println(response.getStatusLine().getStatusCode());   // 200
-			// System.out.println(response.getStatusLine().getReasonPhrase()); // OK
-			// System.out.println(response.getStatusLine().toString());        // HTTP/1.1 200 OK
+			String encoding = Base64.getEncoder().encodeToString(("admin:Admin123").getBytes());
 
-			HttpEntity entity = response.getEntity();
-			if (entity != null) {
-				// return it as a String
-				result = EntityUtils.toString(entity);
-				System.out.println(result);
+			request.addHeader(HttpHeaders.AUTHORIZATION, "Basic " + encoding);
+			// CredentialsProvider provider = new BasicCredentialsProvider();
+			// provider.setCredentials(
+			// 		AuthScope.ANY,
+			// 		new UsernamePasswordCredentials("admin", "Admin123")
+			// );
+
+			// https://mkyong.com/java/apache-httpclient-examples/
+			try (CloseableHttpClient httpClient = HttpClients.createDefault();
+			CloseableHttpResponse response = httpClient.execute(request)) {
+
+				// Get HttpResponse Status
+				// System.out.println(response.getProtocolVersion());              // HTTP/1.1
+				// System.out.println(response.getStatusLine().getStatusCode());   // 200
+				// System.out.println(response.getStatusLine().getReasonPhrase()); // OK
+				// System.out.println(response.getStatusLine().toString());        // HTTP/1.1 200 OK
+
+				HttpEntity entity = response.getEntity();
+				if (entity != null) {
+					// return it as a String
+					result = EntityUtils.toString(entity);
+					System.out.println(result);
+				}
+
 			}
 
-   		}
+			// try (CloseableHttpClient httpClient = HttpClientBuilder.create()
+			// 		.setDefaultCredentialsProvider(provider)
+			// 		.build();
+			// 	CloseableHttpResponse response = httpClient.execute(request)) {
 
-		// try (CloseableHttpClient httpClient = HttpClientBuilder.create()
-		// 		.setDefaultCredentialsProvider(provider)
-		// 		.build();
-		// 	CloseableHttpResponse response = httpClient.execute(request)) {
+			// 	// 401 if wrong user/password
+			// 	System.out.println(response.getStatusLine().getStatusCode());   
 
-		// 	// 401 if wrong user/password
-		// 	System.out.println(response.getStatusLine().getStatusCode());   
+			// 	HttpEntity entity = response.getEntity();
+			// 	if (entity != null) {
+			// 		// return it as a String
+			// 		result = EntityUtils.toString(entity);
+			// 		System.out.println(result);
+			// 	}
 
-		// 	HttpEntity entity = response.getEntity();
-		// 	if (entity != null) {
-		// 		// return it as a String
-		// 		result = EntityUtils.toString(entity);
-		// 		System.out.println(result);
-		// 	}
-
-		// }
+			// }
+		}
 		return result;
 	}
-
-	
 }
