@@ -13,4 +13,4 @@ Openmrs-module-opspost is a module for allowing patients to post observations to
 * A sample mobile app is available [here](https://github.com/dermatologist/skinhelpdesk-app).
 
 ## This is an experimental application that can make OpenMRS insecure.
-## DO NOT USE this on production
+## DO NOT USE this in production
