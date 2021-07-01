@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: beapen/openmrs-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: openmrs
+
+  openmrs:
+    build: .
+    image: beapen/openmrs-dev
+    command: sleep infinity
+    depends_on:
+      - db
+
