@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   db:
-    image: beapen/openmrs-db
+    image: mysql:5.7
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: openmrs
