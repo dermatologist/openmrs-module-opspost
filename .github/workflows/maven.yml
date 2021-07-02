@@ -6,8 +6,14 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ ubuntu-latest ]
+        java-version: [ 8 ]
+    runs-on: ${{ matrix.platform }}
+    env:
+      PLATFORM: ${{ matrix.platform }}
+      JAVA_VERSION: ${{ matrix.java-version }}
     timeout-minutes: 10
 
     steps:
@@ -16,9 +22,16 @@ jobs:
       uses: actions/setup-java@v2.1.0
       with:
         distribution: 'adopt'
-        java-version: 8
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+        java-version: ${{ matrix.java-version }}
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Install dependencies
+      run: mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode --show-version --file pom.xml
     - name: Make the compiled omod available
       uses: actions/upload-artifact@v2
       with:
